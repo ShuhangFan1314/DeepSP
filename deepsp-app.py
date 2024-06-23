@@ -44,23 +44,17 @@ st.subheader('The FASTA file format is H_seq/L_seq (variable regions)')
 
 st.markdown('''
 ### EXAMPLE:
-\>6p8n
-QVQLVQSGAEVKKPGASVKVSCKASGYTFTGYYMNWVRQAPGQGLEWMGWINPNSGGTNYAQKFQGRVTMTRDTSISTAYMELSRLRSDDTAVYYCARGKNSDYNWDFQHWGQGTLVTVSS/DIVMSQSPSSLAVSVGEKVTMSCKSSQSLLYSSNQKNYLAWYQQKPGQSPKLLIYWASTRESGVPDRFTGSGSGTDFTLTISSVKAEDLAVYYCQQYEMFGGGTKLEIK 
+Heavy Chain: QVQLVQSGAEVKKPGASVKVSCKASGYTFTGYYMNWVRQAPGQGLEWMGWINPNSGGTNYAQKFQGRVTMTRDTSISTAYMELSRLRSDDTAVYYCARGKNSDYNWDFQHWGQGTLVTVSS
+Light Chain: DIVMSQSPSSLAVSVGEKVTMSCKSSQSLLYSSNQKNYLAWYQQKPGQSPKLLIYWASTRESGVPDRFTGSGSGTDFTLTISSVKAEDLAVYYCQQYEMFGGGTKLEIK
 ''')
 
-seq_file = st.file_uploader("#### Upload your FASTA file", type=['fasta'])
-if seq_file is not None:
-    stringio = StringIO(seq_file.getvalue().decode("utf-8"))
-    sequences_H = []
-    sequences_L = []
-    name_list = []
-    for record in SeqIO.parse(stringio, 'fasta'):
-        name = str(record.id)
-        name_list.append(name)
-        sequence = str(record.seq)
-        sequence_H, sequence_L = sequence.split('/')
-        sequences_H.append((name, sequence_H))
-        sequences_L.append((name, sequence_L))
+sequence_H = st.text_area("Enter the heavy chain sequence:")
+sequence_L = st.text_area("Enter the light chain sequence:")
+
+
+if sequence_H and sequence_L:
+    sequences_H = [(name, sequence_H)]
+    sequences_L = [(name, sequence_L)]
     
     results_H = anarci(sequences_H, scheme="imgt", output=False)
     results_L = anarci(sequences_L, scheme="imgt", output=False)
