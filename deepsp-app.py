@@ -13,15 +13,6 @@ from Bio import SeqIO
 from io import StringIO
 from anarci import anarci
 import anarci
-import subprocess
-try:
-    results_H = anarci.anarci([('', sequence_H)], scheme="imgt", output=False)
-except subprocess.CalledProcessError as e:
-    st.error(f"Error calling anarci: {e}")
-    st.error(f"Command: {e.cmd}")
-    st.error(f"Return code: {e.returncode}")
-    st.error(f"Output: {e.output}")
-    st.error(f"Stderr: {e.stderr}")
 
 def one_hot_encoder(sequence):
     amino_acid_dict = {
@@ -86,6 +77,16 @@ def process_sequences(sequence_H, sequence_L):
             seq_list.append(''.join(H_tmp + L_tmp))
     
     return seq_list
+
+import subprocess
+try:
+    results_H = anarci.anarci([('', sequence_H)], scheme="imgt", output=False)
+except subprocess.CalledProcessError as e:
+    st.error(f"Error calling anarci: {e}")
+    st.error(f"Command: {e.cmd}")
+    st.error(f"Return code: {e.returncode}")
+    st.error(f"Output: {e.output}")
+    st.error(f"Stderr: {e.stderr}")
 
 def load_and_predict(json_file_name, h5_file_name, columns):
     with open(json_file_name, 'r') as json_file:
