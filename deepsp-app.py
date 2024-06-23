@@ -50,8 +50,8 @@ sequence_H = st.text_area("Enter the heavy chain sequence:")
 sequence_L = st.text_area("Enter the light chain sequence:")
 
 def process_sequences(sequence_H, sequence_L):
-    sequences_H = [(name, sequence_H)]
-    sequences_L = [(name, sequence_L)]
+    sequences_H = [('', sequence_H)]
+    sequences_L = [('', sequence_L)]
     
     results_H = anarci(sequences_H, scheme="imgt", output=False)
     results_L = anarci(sequences_L, scheme="imgt", output=False)
